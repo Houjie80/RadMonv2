@@ -69,6 +69,7 @@ include('../include/head.html.php');
 <a href="../hotspot/hslogo.php" class="menu"> <i class="fa fa-upload"></i> Upload Logo </a>
 <a href="../voucher/template.php" class="menu"> <i class="fa fa-edit"></i> Template Setting </a>          
 </div>
+<a href="../../../phpmyadmin" class="menu"><i class="fa fa-info-circle"></i> phpadmin</a>
 <!--about-->
 <a href="../pages/about.php" class="menu"><i class="fa fa-info-circle"></i> About</a>
 </div>
