@@ -8,8 +8,8 @@
 * © 2024 Mutiara-Net By @Maizil
 *******************************************************************************************************************
 */
-include('../include/head.html.php');
-include('../backend/profile.php');
+include ("../include/head.html.php");
+include ("../backend/profile.php");
 ?>
 
 <div id="sidenav" class="sidenav">

@@ -8,8 +8,8 @@
 * © 2024 Mutiara-Net By @Maizil
 *******************************************************************************************************************
 */
-include('../include/head.html.php');
-include('../include/hotspot.editbw.php');
+include ("../include/head.html.php");
+include ("../include/hotspot.editbw.php");
 ?>
 
 <div id="sidenav" class="sidenav">
