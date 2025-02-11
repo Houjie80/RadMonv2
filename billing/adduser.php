@@ -9,7 +9,6 @@
 *******************************************************************************************************************
 */
 include ("../include/head.html.php");
-include ("../include/billing.edit.php");
 ?>
 
 <div id="sidenav" class="sidenav">
@@ -19,7 +18,7 @@ include ("../include/billing.edit.php");
 <i class="fa fa-caret-down"></i>
 </div>
 <div class="dropdown-container ">
-<a href="../hotspot/user.php" class=""><i class="fa fa-users"></i> Hotspot User</a>
+<a href="../hotspot/user.php" class="menu"><i class="fa fa-users"></i> Hotspot User</a>
 <a href="../hotspot/profile.php" class=""><i class="fa fa-pie-chart"></i> Hotspot Profile</a>
 <a href="../hotspot/binding.php" class="menu"><i class="fa fa-address-book"></i> MAC Bindings</a>
 <a href="../hotspot/active.php" class=""><i class="fa fa-wifi"></i> Hotspot Active</a>
@@ -40,7 +39,7 @@ include ("../include/billing.edit.php");
 <!--system-->
 <a href="../pages/server.php" class="menu"> <i class="fa fa-server"></i> Status </a>
 <!--billing-->
-<div class="dropdown-btn active"><i class=" fa fa-credit-card"></i> Billing<i class="fa fa-caret-down"></i>
+<div class="dropdown-btn active"><i class="fa fa-credit-card"></i> Billing<i class="fa fa-caret-down"></i>
 </div>
 <div class="dropdown-container ">
 <a href="../billing/request.php" class=""> <i class="fa fa-plus-circle "></i> Topup Request </a>
@@ -58,7 +57,6 @@ include ("../include/billing.edit.php");
 <a href="../voucher/template.php" class="menu"><i class="fa fa-edit"></i> Template Setting </a>          
 <a href="../pages/backup.php" class="menu"><i class="fa fa-folder-open"></i> Backup & Restore </a>          
 </div>
-<a href="../../../phpmyadmin" class="menu"><i class="fa fa-info-circle"></i> phpadmin</a>
 <!--about-->
 <a href="../pages/about.php" class="menu"><i class="fa fa-info-circle"></i> About</a>
 </div>
@@ -70,27 +68,36 @@ include ("../include/billing.edit.php");
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3><i class="fa fa-edit"></i> Edit Client : <?php echo htmlspecialchars($uid['username']); ?></h3>
+                        <h3>
+                            <i class="fa fa-user-plus"></i> Add Client &nbsp; | &nbsp;
+                            <small id="loader" style="display: none;">
+                                <i><i class="fa fa-circle-o-notch fa-spin"></i> Processing...</i>
+                            </small>
+                            <?php if (isset($_GET['message'])): ?>
+                                <small id="message">
+                                    <?php echo htmlspecialchars($_GET['message']); ?>
+                                </small>
+                            <?php endif; ?>
+                        </h3>
                     </div>
                     <div class="card-body">
-                        <form method="post" role="form" action="../backend/update_client.php">
+                        <form method="post" role="form" action="../backend/addclient.php" id="addUserForm">
                             <div>
-                                <input type="hidden" id="uid" name="uid" value="<?php echo htmlspecialchars($_GET['id']); ?>">
                                 <a class="btn bg-warning" href="../billing/user.php"> <i class="fa fa-close"></i> Close</a>
-                                <button type="submit" name="updateusers" class="btn bg-primary"><i class="fa fa-save"></i> Save</button>
+                                <button type="submit" name="addclient" class="btn bg-primary"><i class="fa fa-save"></i> Save</button>
                             </div>
 
                             <table class="table">
                                 <tr>
                                     <td>Username</td>
                                     <td>
-                                        <input type="text" class="form-control" id="username" name="username" maxlength="16" value="<?php echo htmlspecialchars($uid['username']); ?>" required>
+                                        <input type="text" class="form-control" id="username" name="username" maxlength="16" required>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Password</td>
                                     <td>
-                                        <input type="text" class="form-control" id="password" name="password" maxlength="16" value="<?php echo htmlspecialchars($uid['password']); ?>" required>
+                                        <input type="text" class="form-control" id="password" name="password" maxlength="16" required>
                                     </td>
                                 </tr>
                                 <tr>
@@ -101,7 +108,7 @@ include ("../include/billing.edit.php");
                                                 <input type="text" class="form-control" value="Rp" disabled>
                                             </div>
                                             <div class="input-group-10">
-                                                <input type="number" id="balance" class="form-control" name="balance" value="<?php echo htmlspecialchars($uid['balance']); ?>" min="0" required>
+                                                <input type="number" id="balance" class="form-control" name="balance" min="0" value="0" required>
                                             </div>
                                         </div>
                                     </td>
@@ -109,7 +116,7 @@ include ("../include/billing.edit.php");
                                 <tr>
                                     <td class="align-middle">Telegram</td>
                                     <td>
-                                        <input type="number" class="form-control" id="telegram" name="telegram" value="<?php echo htmlspecialchars($uid['telegram_id']); ?>" oninput="if(this.value.length > 12) this.value = this.value.slice(0,12);" title="Masukkan ID yang valid">
+                                        <input type="number" class="form-control" id="telegram" name="telegram" oninput="if(this.value.length > 12) this.value = this.value.slice(0,12);" title="Masukkan ID yang valid">
                                     </td>
                                 </tr>
                                 <tr>
@@ -120,7 +127,7 @@ include ("../include/billing.edit.php");
                                                 <input type="number" class="form-control" value="62" disabled>
                                             </div>
                                             <div class="input-group-10">
-                                                <input type="text" class="form-control" id="whatsapp" name="whatsapp" value="<?php echo htmlspecialchars($client_phone); ?>" oninput="if(this.value.length > 17) this.value = this.value.slice(0,17);" pattern="[0-9\-]+" title="Masukkan nomor yang valid">
+                                                <input type="text" class="form-control" id="whatsapp" name="whatsapp" oninput="if(this.value.length > 17) this.value = this.value.slice(0,17);" pattern="[0-9\-]+" title="Masukkan nomor yang valid">
                                             </div>
                                         </div>
                                     </td>
@@ -135,5 +142,6 @@ include ("../include/billing.edit.php");
 </div>
 <script src="../js/radmon-ui.<?php echo $theme; ?>.min.js"></script>
 <script src="../js/radmon.js"></script>
+<script src="../plugins/add.client.js"></script>
 </body>
 </html>
